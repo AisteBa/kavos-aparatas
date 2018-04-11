@@ -2,12 +2,10 @@ package lt.aiste.barzdenaite.kavosaparatas20180403;
 
 public class KavosAparatas {
     public static final int PANAUDOJIMU_SKAICIAUS_RIBA = 2;
-    public static final String WEAK_COFFEE = "w";
-    public static final String MEDIUM_COFFEE = "m";
-    public static final String STRONG_COFFEE = "s";
-    public static final int MAX_CUKRAUS_KIEKIS = 10;  // gramai
-    private int maxKavosPupeliuKiekis; // gramai
-    private int maxVandensKiekis;  // miligramai
+
+    public static final int MAX_CUKRAUS_KIEKIS = 500;  // gramai
+    public static final int MAX_KAVOS_PUPELIU_KIEKIS = 500; // gramai
+    public static final int MAX_VANDENS_KIEKIS = 5000;  // miligramai
 
     private int cukrausKiekis;  // gramai
     private int kavosPupeliuKiekis; // gramai
@@ -15,31 +13,34 @@ public class KavosAparatas {
     private int panaudojimuSkaicius;
 
     public KavosAparatas(){
-        this.cukrausKiekis = MAX_CUKRAUS_KIEKIS;
+       this(MAX_CUKRAUS_KIEKIS, MAX_KAVOS_PUPELIU_KIEKIS, MAX_VANDENS_KIEKIS);
     }
 
     public KavosAparatas(int cukrausKiekis, int kavosPupeliuKiekis, int vandensKiekis) {
         this.cukrausKiekis = cukrausKiekis;
-        this.maxKavosPupeliuKiekis = this.kavosPupeliuKiekis = kavosPupeliuKiekis;
-        this.maxVandensKiekis = this.vandensKiekis = vandensKiekis;
+        this.kavosPupeliuKiekis = kavosPupeliuKiekis;
+        this.vandensKiekis = vandensKiekis;
     }
 
-    public boolean patikrink() {
-        if (cukrausKiekis < 5 && kavosPupeliuKiekis < 6 && vandensKiekis < 500 && (PANAUDOJIMU_SKAICIAUS_RIBA - this.panaudojimuSkaicius) <= 0) {
-            return false;
-        } else {
-        return true;
-        }
+    public boolean patikrink(String typeOfCoffee) {
+        return patikrinkPuodelyje(KavosReceptas.kavosReceptas(typeOfCoffee));
+    }
+
+    public boolean patikrinkPuodelyje(KavosReceptas kavosReceptas) {
+        return (cukrausKiekis >= kavosReceptas.getCukrausKiekisPuodelyje() &&
+            kavosPupeliuKiekis >= kavosReceptas.getPupeliuKiekisPuodelyje() &&
+            vandensKiekis >= kavosReceptas.getVandensKiekisPuodelyje() &&
+            (PANAUDOJIMU_SKAICIAUS_RIBA - this.panaudojimuSkaicius) > 0);
     }
 
     public void spausdinkArPasiruoses() {
-        if (cukrausKiekis < 5) {
+        if (cukrausKiekis < KavosReceptas.WEAK_COFFEE.getCukrausKiekisPuodelyje()) {
             System.out.println("Papildyti cukraus");
         }
-        if (kavosPupeliuKiekis < 6) {
+        if (kavosPupeliuKiekis < KavosReceptas.WEAK_COFFEE.getPupeliuKiekisPuodelyje()) {
             System.out.println("Papildyti pupelių");
         }
-        if (vandensKiekis < 500) {
+        if (vandensKiekis < KavosReceptas.WEAK_COFFEE.getVandensKiekisPuodelyje()) {
             System.out.println("Papildyti vandens");
         }
         if ((PANAUDOJIMU_SKAICIAUS_RIBA - this.panaudojimuSkaicius) <= 0) {
@@ -49,24 +50,15 @@ public class KavosAparatas {
         }
     }
 
-    /*silpna kava = 300 vandens, 5 cukraus, 2 pupeliu;
-    vidutine = 500 vandens, 5 cukraus, 4 pupeliu;
-    stipri = 500 vandens, 5 cukraus,  6 pupeliu */
     public void ruoskKava(String typeOfCoffee) {
-        if (WEAK_COFFEE.equals(typeOfCoffee)) {
-            this.cukrausKiekis = this.cukrausKiekis - 5;
-            this.vandensKiekis = this.vandensKiekis - 300;
-            this.kavosPupeliuKiekis = this.kavosPupeliuKiekis - 2;
-        }
-        if (MEDIUM_COFFEE.equals(typeOfCoffee)) {
-            this.cukrausKiekis = this.cukrausKiekis - 5;
-            this.vandensKiekis = this.vandensKiekis - 500;
-            this.kavosPupeliuKiekis = this.kavosPupeliuKiekis - 4;
-        }
-        if (STRONG_COFFEE.equals(typeOfCoffee)) {
-            this.cukrausKiekis = this.cukrausKiekis - 5;
-            this.vandensKiekis = this.vandensKiekis - 500;
-            this.kavosPupeliuKiekis = this.kavosPupeliuKiekis - 6;
+            ruostiKavosPuodeli(KavosReceptas.kavosReceptas(typeOfCoffee));
+    }
+
+    public void ruostiKavosPuodeli(KavosReceptas kavosReceptas){
+        if(this.patikrinkPuodelyje(kavosReceptas)) {
+            this.cukrausKiekis = this.cukrausKiekis - kavosReceptas.getCukrausKiekisPuodelyje();
+            this.vandensKiekis = this.vandensKiekis - kavosReceptas.getVandensKiekisPuodelyje();
+            this.kavosPupeliuKiekis = this.kavosPupeliuKiekis - kavosReceptas.getPupeliuKiekisPuodelyje();
         }
     }
 
@@ -79,18 +71,25 @@ public class KavosAparatas {
     }
 
     public int papildytiVandens() {
-        this.vandensKiekis = this.maxVandensKiekis;
+        this.vandensKiekis = MAX_VANDENS_KIEKIS;
         return vandensKiekis;
     }
 
     public int papildytiPupeliu() {
-        this.kavosPupeliuKiekis = this.maxKavosPupeliuKiekis;
+        this.kavosPupeliuKiekis = MAX_KAVOS_PUPELIU_KIEKIS;
         return kavosPupeliuKiekis;
     }
 
     public int papildytiCukraus() {
         this.cukrausKiekis = this.MAX_CUKRAUS_KIEKIS;
         return cukrausKiekis;
+    }
+
+    public void papildytiIkiMax() {
+        this.papildytiCukraus();
+        this.papildytiPupeliu();
+        this.papildytiVandens();
+        this.isplaukAparata();
     }
 
     public int getCukrausKiekis() {

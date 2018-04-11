@@ -22,7 +22,7 @@ public class App {
 //Pasakytų kokia dabar produktų būsena – atspausdintų informaciją
 //Pasakytų kokia yra aparato būsena (kiek liko produktų ir iki plovimo)
 
-        KavosAparatas kA = new KavosAparatas(10, 10, 1000);
+        KavosAparatas kA = new KavosAparatas();
 
         boolean run = true;
         while (run) {
@@ -31,12 +31,12 @@ public class App {
             int input = scanner.nextInt();
             switch (input) {
                 case 1:
-                    if(kA.patikrink()) {
-                        System.out.println("Pasirinkite kavą: silpa (w), vidutinio stiprumo (m), stirpi (s)");
-                        String typeOfCoffee = scanner.next().toLowerCase();
+                    System.out.println("Pasirinkite kavą: silpa (w), vidutinio stiprumo (m), stirpi (s)");
+                    String typeOfCoffee = scanner.next().toLowerCase();
+                    if(kA.patikrink(typeOfCoffee)) {
                         kA.ruoskKava(typeOfCoffee);
                         kA.skaiciuokPanaudojimuSkaiciu();
-                        System.out.println(typeOfCoffee + " dydžio kava paruošta!");
+                        System.out.println(typeOfCoffee + "Kava paruošta!");
                     } else {
                         System.out.println("Pirmiausia papildykite/išplaukite aparatą");
                     }
@@ -58,6 +58,10 @@ public class App {
                     if (papildymas == 3) {
                         kA.papildytiCukraus();
                         System.out.println("Papildyta cukraus");
+                    }
+                    if (papildymas == 4) {
+                        kA.papildytiIkiMax();
+                        System.out.println("Papildyta viskuom iki max");
                     }
                     break;
                 case 4:
