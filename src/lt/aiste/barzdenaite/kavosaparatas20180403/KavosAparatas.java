@@ -1,10 +1,10 @@
 package lt.aiste.barzdenaite.kavosaparatas20180403;
 
 public class KavosAparatas {
-    public static final int PANAUDOJIMU_SKAICIAUS_RIBA = 2;
+    public static final int PANAUDOJIMU_SKAICIAUS_RIBA = 50;
 
     public static final int MAX_CUKRAUS_KIEKIS = 500;  // gramai
-    public static final int MAX_KAVOS_PUPELIU_KIEKIS = 500; // gramai
+    public static final int MAX_KAVOS_PUPELIU_KIEKIS = 5; // gramai
     public static final int MAX_VANDENS_KIEKIS = 5000;  // miligramai
 
     private int cukrausKiekis;  // gramai
@@ -35,16 +35,13 @@ public class KavosAparatas {
 
     public void spausdinkArPasiruoses() {
         if (cukrausKiekis < KavosReceptas.WEAK_COFFEE.getCukrausKiekisPuodelyje()) {
-            System.out.println("Papildyti cukraus");
-        }
-        if (kavosPupeliuKiekis < KavosReceptas.WEAK_COFFEE.getPupeliuKiekisPuodelyje()) {
-            System.out.println("Papildyti pupelių");
-        }
-        if (vandensKiekis < KavosReceptas.WEAK_COFFEE.getVandensKiekisPuodelyje()) {
-            System.out.println("Papildyti vandens");
-        }
-        if ((PANAUDOJIMU_SKAICIAUS_RIBA - this.panaudojimuSkaicius) <= 0) {
-            System.out.println("Išplauti aparatą");
+            System.out.println("Papildykite cukraus");
+        } else if (kavosPupeliuKiekis < KavosReceptas.WEAK_COFFEE.getPupeliuKiekisPuodelyje()) {
+            System.out.println("Papildykite pupelių");
+        } else if (vandensKiekis < KavosReceptas.WEAK_COFFEE.getVandensKiekisPuodelyje()) {
+            System.out.println("Papildykite vandens");
+        } else if ((PANAUDOJIMU_SKAICIAUS_RIBA - this.panaudojimuSkaicius) <= 0) {
+            System.out.println("Išplaukite aparatą");
         } else {
             System.out.println("Aparatas pasiruošęs daryti kavą");
         }

@@ -55,6 +55,4 @@ public class KavosReceptas {
             return null;
         }
     }
-
-
 }

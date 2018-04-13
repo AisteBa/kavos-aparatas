@@ -36,7 +36,7 @@ public class App {
                     if(kA.patikrink(typeOfCoffee)) {
                         kA.ruoskKava(typeOfCoffee);
                         kA.skaiciuokPanaudojimuSkaiciu();
-                        System.out.println(typeOfCoffee + "Kava paruošta!");
+                        System.out.println("Kava paruošta!");
                     } else {
                         System.out.println("Pirmiausia papildykite/išplaukite aparatą");
                     }
@@ -45,23 +45,27 @@ public class App {
                     kA.spausdinkArPasiruoses();
                     break;
                 case 3:
-                    System.out.println("Kuo norėsite papildyti aparatą: 1. vandeniu 2. pupelėmis 3. cukrumi");
+                    System.out.println("Kuo norėsite papildyti aparatą: 1. vandeniu 2. pupelėmis 3. cukrumi ");
                     int papildymas = scanner.nextInt();
-                    if (papildymas == 1) {
+                    switch (papildymas){
+                        case 1:
                         kA.papildytiVandens();
                         System.out.println("Papildyta vandens");
-                    }
-                    if (papildymas == 2) {
+                        break;
+                        case 2:
                         kA.papildytiPupeliu();
                         System.out.println("Papildyta pupelių");
-                    }
-                    if (papildymas == 3) {
+                        break;
+                        case 3:
                         kA.papildytiCukraus();
                         System.out.println("Papildyta cukraus");
-                    }
-                    if (papildymas == 4) {
+                        break;
+                        case 4:
                         kA.papildytiIkiMax();
                         System.out.println("Papildyta viskuom iki max");
+                        break;
+                        default:
+                            System.out.println("Blogai įvestas skaičius");
                     }
                     break;
                 case 4:
@@ -93,8 +97,8 @@ public class App {
         System.out.println("2. Patikrinti, ar aparatas pasiruošęs daryti kavą");
         System.out.println("3. Papildyti aparatą vandeniu, pupelėmis, cukrumi");
         System.out.println("4. Atlikti aparato plovimą");
-        System.out.println("5. Atspausdinti, kiek produktų liko");
-        System.out.println("6. Atspausdinti, kiek liko puodelių iki plovimo");
+        System.out.println("5. Produktų būsena");
+        System.out.println("6. Aparato būsena");
         System.out.println("7. Išjungti aparatą");
         System.out.println("-------------------------------------------------------");
     }
